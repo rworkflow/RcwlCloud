@@ -1,0 +1,25 @@
+Package: RcwlCloud
+Title: CWL client for Seven Bridges platform APIs
+Version: 0.0.2
+Authors@R: 
+    person(given = "Qiang",
+           family = "Hu",
+           role = c("aut", "cre"),
+           email = "qiang.hu@roswellpark.org")
+Description: An R client for the Seven Bridges platform APIs, such as
+Cancer Genomics Clould (CGC) and Cavatica, to manager files, submit
+and run tasks.
+Depends: httr
+Imports: yaml, jsonlite, methods, basilisk
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 3.0.0),
+    rmarkdown,
+    knitr
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+StagedInstall: no
