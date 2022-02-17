@@ -1,11 +1,12 @@
 #' get App details
 #' @param project The project ID in the following format: {project_owner}/{project}.
 #' @param app_id The ID for the app you are querying.
-#' @param key The Authentication Token.
 #' @export
-get_app <- function(project, app_id, key = NULL){
-    key <- .check_auth(key)
-    app1 <- GET("https://cgc-api.sbgenomics.com",
+get_app <- function(project, app_id){
+    keys <- .check_auth()
+    key <- keys[[1]]
+    api <- keys[[2]]
+    app1 <- GET(paste0("https://", api, "-api.sbgenomics.com"),
                 add_headers("X-SBG-Auth-Token" = key,
                             "Content-Type" = "application/json"),
                 path = paste("v2/apps", project, app_id, sep = "/"))
@@ -18,19 +19,21 @@ get_app <- function(project, app_id, key = NULL){
 #' @param project TThe project ID in the following format: {project_owner}/{project}.
 #' @param app The app JSON file to upload. Or a `cwlProcess` from `Rcwl`.
 #' @param app_id The app ID.
-#' @param key The Authentication Token of your account from CGC if not auth.
+#' @param api The cloud api, cgc or cavatica.
 #' @param update_key Whether to update key.
 #' @importFrom Rcwl writeCWL
 #' @export
-add_app <- function(project, app, app_id, key = NULL, update_key = FALSE){
-    key <- .check_auth(key)
+add_app <- function(project, app, app_id, api = "cgc", update_key = FALSE){
+    keys <- .check_auth()
+    key <- keys[[1]]
+    api <- keys[[2]]
     
     if(update_key | !file.exists("~/.sevenbridges/credentials")){
         dir.create("~/.sevenbridges", showWarnings = FALSE)
-        cre <- c("[cgc]",
-                 "api_endpoint = https://cgc-api.sbgenomics.com/v2",
+        cre <- c(paste0("[", api, "]"),
+                 paste0("api_endpoint = https://", api, "-api.sbgenomics.com/v2"),
                  paste0("auth_token = ", key))
-        writeLines(cre, "~/.sevenbridges/credentials")
+        write(cre, "~/.sevenbridges/credentials", append = TRUE)
     }
     
     if(!file.exists(Sys.which("sbpack"))){
@@ -46,7 +49,7 @@ add_app <- function(project, app, app_id, key = NULL, update_key = FALSE){
             app_file <- writeCWL(app, app_id, tempdir())[1]
         }
     }
-    re <- system(paste0("sbpack cgc ", project, "/", app_id, " ", app_file))
+    re <- system(paste0("sbpack ", api, " ", project, "/", app_id, " ", app_file))
     return(paste0(project, "/", app_id))
 }
 

@@ -4,12 +4,10 @@
 \alias{run_task}
 \title{Run a task}
 \usage{
-run_task(task, key = NULL)
+run_task(task)
 }
 \arguments{
 \item{task}{The response list with task ID.}
-
-\item{key}{The authentication token.}
 }
 \description{
 Run a task

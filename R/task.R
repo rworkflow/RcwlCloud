@@ -4,7 +4,6 @@
 #' 
 #' @param project The project ID in the following format: {project_owner}/{project}.
 #' @param app The ID for the app you are querying.
-#' @param key The Authentication Token.
 #' @param inputs The list of input parameters for the App.
 #' @param batch_input The ID from the inputs for batch run.
 #' @param batch_by The type of batch.
@@ -14,8 +13,11 @@
 #' @importFrom jsonlite toJSON
 #' @export
 new_task <- function(project, app, inputs, batch_input = NULL, batch_by = NULL,
-                     key = NULL, extlist = NULL){
-    key <- .check_auth(key)
+                     extlist = NULL){
+    keys <- .check_auth()
+    key <- keys[[1]]
+    api <- keys[[2]]
+
     inputsList <- lapply(inputs, function(x){
         if(is(x, "list") & "id" %in% names(x)){
             if(!"class" %in% names(x)){
@@ -49,7 +51,7 @@ new_task <- function(project, app, inputs, batch_input = NULL, batch_by = NULL,
                    
     Inputs <- Inputs[lengths(Inputs)>0]
     
-    post_task <- POST("https://cgc-api.sbgenomics.com/v2/tasks",
+    post_task <- POST(paste0("https://", api, "-api.sbgenomics.com/v2/tasks"),
                       add_headers("X-SBG-Auth-Token" = key,
                                   "Content-Type" = "application/json"),
                       body = toJSON(Inputs, auto_unbox = T),
@@ -60,11 +62,12 @@ new_task <- function(project, app, inputs, batch_input = NULL, batch_by = NULL,
 #' Run a task
 #'
 #' @param task The response list with task ID.
-#' @param key The authentication token.
 #' @export
-run_task <- function(task, key = NULL){
-    key <- .check_auth(key)
-    run <- POST(paste0("https://cgc-api.sbgenomics.com/v2/tasks/",
+run_task <- function(task){
+    keys <- .check_auth()
+    key <- keys[[1]]
+    api <- keys[[2]]
+    run <- POST(paste0(paste0("https://", api, "-api.sbgenomics.com/v2/tasks/"),
                        task$id, "/actions/run"),
                 add_headers("X-SBG-Auth-Token" = key,
                             "Content-Type" = "application/json"))

@@ -4,12 +4,10 @@
 \alias{get_file}
 \title{get file}
 \usage{
-get_file(id, key = NULL)
+get_file(id)
 }
 \arguments{
 \item{id}{The file ID.}
-
-\item{key}{The authentication token.}
 }
 \description{
 get file

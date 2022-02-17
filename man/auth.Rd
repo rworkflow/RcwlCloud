@@ -4,10 +4,12 @@
 \alias{auth}
 \title{Authorization}
 \usage{
-auth(key)
+auth(key, api = "cgc")
 }
 \arguments{
-\item{key}{The Authentication Token of your account from CGC.}
+\item{key}{The Authentication Token of your account from API.}
+
+\item{api}{The cloud api, such as cgc or cavadica.}
 }
 \description{
 Authorization

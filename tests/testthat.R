@@ -1,4 +1,4 @@
 library(testthat)
-library(CGClient)
+library(RcwlCloud)
 
-test_check("CGClient")
+test_check("RcwlCloud")

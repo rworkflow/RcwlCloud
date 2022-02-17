@@ -4,7 +4,7 @@
 \alias{list_folder}
 \title{list folder}
 \usage{
-list_folder(id = NULL, project = NULL, recursive = FALSE, key = NULL)
+list_folder(id = NULL, project = NULL, recursive = FALSE)
 }
 \arguments{
 \item{id}{The folder ID to list.}
@@ -12,8 +12,6 @@ list_folder(id = NULL, project = NULL, recursive = FALSE, key = NULL)
 \item{project}{The prject ID.}
 
 \item{recursive}{Whether to list the folder recursively.}
-
-\item{key}{The authentication token.}
 }
 \value{
 A data.frame of contents in the folder.
