@@ -73,3 +73,19 @@ run_task <- function(task){
                             "Content-Type" = "application/json"))
     responseList(content(run))
 }
+
+#' execution_settings
+#'
+#' @param instance_type The instance to run task.
+#' @param max_parallel_instances Max number of parallel instances.
+#' @param use_memoization Automatic reuse of precomputed results.
+#' @export
+exec_setting <- function(instance_type = "c4.2xlarge",
+                         max_parallel_instances = 1,
+                         use_memoization = FALSE){
+    list(execution_settings =
+             list(instance_type = instance_type,
+                  max_parallel_instances = max_parallel_instances,
+                  use_memoization = use_memoization)
+         )
+}
